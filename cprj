@@ -112,13 +112,14 @@ eval ${cmd}
 #	-path "$LNX/drivers*" -prune -o                                       \
 #        -name "*.[chxsS]" -print >/home/jru/cscope/cscope.files
 #
-ctags -R -L ${project}.file
+ctags -R -L ${project}.file -f ${project}.tags
+cp ${project}.tags tags
 #
-cscope -bk -i ${project}.file
+cscope -bk -i ${project}.file -f ${project}.out
 
 if test ! -f "${project}.vimrc"; then
   touch ~/.vim/plugin/$project.vim
 fi
-echo "set tags=$PROJECT_HOME/tags" > ~/.vim/plugin/$project.vim
-echo "cs add $PROJECT_HOME/cscope.out" >> ~/.vim/plugin/$project.vim
+echo "set tags+=$PROJECT_HOME/${project}.tags" > ~/.vim/plugin/$project.vim
+echo "cs add $PROJECT_HOME/${project}.out" >> ~/.vim/plugin/$project.vim
 
